@@ -1,0 +1,223 @@
+﻿<Window x:Class="OGAutoClicker.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:commands="clr-namespace:OGAutoClicker.Commands"
+        xmlns:enums="clr-namespace:OGAutoClicker.Enums"
+        ResizeMode="CanMinimize"
+        Topmost="True"
+        Background="#23272A"
+        Height="520" Width="490">
+    <Window.Resources>
+        <ResourceDictionary Source="../Resources/MainWindowResources.xaml"/>
+
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="commands:MainWindowCommands.Start"
+                        Executed="StartCommand_Execute" CanExecute="StartCommand_CanExecute"/>
+        <CommandBinding Command="commands:MainWindowCommands.Stop"
+                        Executed="StopCommand_Execute" CanExecute="StopCommand_CanExecute"/>
+        <CommandBinding Command="commands:MainWindowCommands.SaveSettings"
+                        Executed="SaveSettingsCommand_Execute"/>
+        <CommandBinding Command="commands:MainWindowCommands.HotkeySettings"
+                        Executed="HotkeySettingsCommand_Execute"/>
+        <CommandBinding Command="commands:MainWindowCommands.Exit"
+                        Executed="ExitCommand_Execute"/>
+        <CommandBinding Command="commands:MainWindowCommands.About"
+                        Executed="AboutCommand_Execute"/>
+    </Window.CommandBindings>
+
+    <Grid Name="mainWindowGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Name="menuDockPanel" Grid.Row="0">
+            <DockPanel.Resources>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Background" Value="#2C2F33"/>
+                    <Setter Property="Width" Value="480"/>
+                    <Style.Triggers>
+                        <Trigger Property="Tag" Value="Alert">
+                            <Setter Property="Background" Value="Red"/>
+                            <Setter Property="Width" Value="100"/>
+                            <Setter Property="TextBlock.FontSize" Value="30"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Resources>
+            <Menu DockPanel.Dock="Top" Background="#2C2F33" Foreground="White" Height="24" Margin="0,4,0,0">
+                <!--<MenuItem Header="_More" Background="#2C2F33" Foreground="White" BorderBrush="{x:Null}" BorderThickness="0">
+                          
+                </MenuItem>-->
+                <MenuItem Header="_About" Click="AboutMenuItem_Click" Background="#2C2F33" Foreground="White"/>
+                <MenuItem Header="Save Settings" Command="commands:MainWindowCommands.SaveSettings" Background="#2C2F33" Foreground="White"/>
+                <MenuItem Header="Minimize to System tray" Click="MinimizeMenuItem_Click" Background="#2C2F33" Foreground="White"/>
+                <MenuItem Header="_Exit" Click="ExitMenuItem_Click"/>
+            </Menu>
+        </DockPanel>
+
+        <Grid Name="primaryGrid" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="264">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Name="clickIntervalGroupBox" Foreground="White" BorderThickness="0.2" BorderBrush="#2C2F33"
+                      Header="Click Interval" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,-91,0,24">
+
+                <Grid Name="clickIntervalInnerGrid"
+                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton x:Name="clickIntervalMode" GroupName="clickInterval" Content="Normal Mode" IsChecked="True" HorizontalAlignment="Left" Margin="-1,-23,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Foreground="White" FontSize="13" BorderThickness="3" BorderBrush="#4a46fb" Width="113" Grid.ColumnSpan="3"/>
+                    <TextBox Grid.Column="0" Width="45"
+                             Text="{Binding AutoClickerSettings.Hours, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="1" Margin="5,12,5,10" Text="hours" Foreground="White"/>
+                    <TextBox Grid.Column="2" Width="45"
+                             Text="{Binding AutoClickerSettings.Minutes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="3" Margin="5,12,5,10" Text="minutes" Foreground="White"/>
+                    <TextBox Grid.Column="4" Width="45"
+                             Text="{Binding AutoClickerSettings.Seconds, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="5" Margin="5,12,5,10" Text="seconds" Foreground="White"/>
+                    <TextBox Grid.Column="6" Width="45"
+                             Text="{Binding AutoClickerSettings.Milliseconds, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="7" Margin="5,12,5,10" Text="milliseconds" Foreground="White"/>
+                    <TextBox x:Name="randomSecs1Box" Grid.Column="4" Width="45" Text="0.1" MaxLength="0"
+                         Margin="5,51,5,-41"/>
+                    <TextBlock Grid.Column="5" Margin="5,58,5,-36" Text="seconds" Foreground="White"/>
+                    <TextBox x:Name="randomSecs2Box" Grid.Column="6" Width="45" Text="0.8" MaxLength="0" 
+                         Margin="5,51,5,-41"/>
+                    <TextBlock Grid.Column="7" Margin="5,58,27,-36" Text="seconds" Foreground="White"/>
+                </Grid>
+
+            </GroupBox>
+
+            <GroupBox Name="clickRepeatGroupBox" Foreground="White" BorderThickness="0.2" BorderBrush="#2C2F33"
+                      Header="Click Repeat" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,66,6,78" Grid.RowSpan="4">
+                <Grid Name="clickRepeatInnerGrid"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Row="0" Grid.Column="0" Margin="0,-3,0,8" Foreground="White" BorderThickness="3" BorderBrush="#4a46fb" VerticalContentAlignment="Center"
+                                 Content="  Infinite (Until stopped)"
+                                 IsChecked="{Binding AutoClickerSettings.SelectedRepeatMode,
+                                                     Converter={StaticResource EnumToBooleanConverter},
+                                                     ConverterParameter={x:Static enums:RepeatMode.Infinite}}"/>
+                    <RadioButton Grid.Row="1" Margin="0,6,0,-1" VerticalContentAlignment="Center" BorderThickness="3" BorderBrush="#4a46fb"
+                                 IsChecked="{Binding AutoClickerSettings.SelectedRepeatMode,
+                                                     Converter={StaticResource EnumToBooleanConverter},
+                                                     ConverterParameter={x:Static enums:RepeatMode.Count}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Width="50" Margin="5, 0, 0, 0"
+                                     Text="{Binding AutoClickerSettings.SelectedTimesToRepeat,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    Mode=TwoWay}"/>
+                            <TextBlock Text="Times" Margin="5, 2, 0, 0" Foreground="White" Height="17"/>
+                        </StackPanel>
+                    </RadioButton>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="clickPositionGroupBox" Foreground="White" BorderThickness="0.2" BorderBrush="#2C2F33"
+                      Header="Click Position" Grid.Column="2" Grid.ColumnSpan="2" Margin="3,66,0,1" Grid.RowSpan="3">
+                <Grid Name="clickPositionInnerGrid"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Row="0" Grid.Column="0" Margin="-19,7,19,2" Foreground="White" BorderBrush="#4a46fb" VerticalContentAlignment="Center" BorderThickness="3"
+                                 Content="Current Cursor Position"
+                                 IsChecked="{Binding AutoClickerSettings.SelectedLocationMode,
+                                                     Converter={StaticResource EnumToBooleanConverter},
+                                                     ConverterParameter={x:Static enums:LocationMode.CurrentLocation}}"/>
+                    <RadioButton Grid.Row="1" Margin="-19,6,13,-1" VerticalContentAlignment="Center" BorderThickness="3" BorderBrush="#4a46fb"
+                                 IsChecked="{Binding AutoClickerSettings.SelectedLocationMode,
+                                                     Converter={StaticResource EnumToBooleanConverter},
+                                                     ConverterParameter={x:Static enums:LocationMode.PickedLocation}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="X" Margin="5, 7, 0, 0" Foreground="White"/>
+                            <TextBox Width="44" Margin="5, 0, 0, 0" x:Name="xBox"
+                                     Text="{Binding AutoClickerSettings.PickedXValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Y" Margin="5, 7, 0, 0" Foreground="White"/>
+                            <TextBox Width="44
+                                     " Margin="5, 0, 0, 0" x:Name="yBox"
+                                     Text="{Binding AutoClickerSettings.PickedYValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <Button Content="Get" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="133,7,0,0" Width="60" VerticalAlignment="Top" Click="getCoordsBtn_Click" Grid.Row="1"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Name="clickOptionGroupBox" Foreground="White" BorderThickness="0.2" BorderBrush="#2C2F33"
+                      Header="Click Options" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,8,0,6">
+                <UniformGrid Name="clickOptionInnerGrid"
+                             HorizontalAlignment="Center" VerticalAlignment="Stretch" Rows="1" Columns="4">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Mouse Button"
+                               Margin="5, 5, 5, 5" VerticalAlignment="Center" TextAlignment="Center" Foreground="White"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="5, 5, 5, 5" Style="{DynamicResource theComboBox}" ItemContainerStyle="{DynamicResource theComboBoxItem}"
+                              ItemsSource="{Binding Source={StaticResource mouseButtonValues}}"
+                              SelectedIndex="0" SelectedItem="{Binding AutoClickerSettings.SelectedMouseButton}" HorizontalAlignment="Stretch" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Click Type"
+                               Margin="5, 5, 5, 5" VerticalAlignment="Center" TextAlignment="Center" Foreground="White"/>
+                    <ComboBox Grid.Row="0" Grid.Column="3" Margin="0, 5, 5, 5" Style="{DynamicResource theComboBox}" ItemContainerStyle="{DynamicResource theComboBoxItem}"
+                              ItemsSource="{Binding Source={StaticResource mouseActionValues}}"
+                              SelectedIndex="0" SelectedItem="{Binding AutoClickerSettings.SelectedMouseAction}" HorizontalAlignment="Stretch"/>
+                </UniformGrid>
+            </GroupBox>
+
+            <UniformGrid Name="buttonsGrid"
+                         Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Rows="2" Columns="2" Margin="0,50,0,-40">
+                <Button Name="startButton"
+                        Grid.Row="0" Grid.Column="0" Margin="5,41,5,-43"
+                        Content="Start (F6)" Command="commands:MainWindowCommands.Start"/>
+                <Button Name="stopButton"
+                        Grid.Row="0" Grid.Column="1" Margin="6,41,4,-43"
+                        Content="Stop (F7)" Command="commands:MainWindowCommands.Stop"/>
+                <Button Name="saveSettingsButton"
+                        Grid.Row="1" Grid.Column="0" Margin="235,54,-225,-55"
+                        Content="Record and Playback" Click="recordAndPlaybackbtn_Click"/>
+                <Button Name="hotkeysButton"
+                        Grid.Row="1" Grid.Column="1" Margin="-224,54,234,-55"
+                        Content="Change Hotkeys" Command="commands:MainWindowCommands.HotkeySettings"/>
+            </UniformGrid>
+            <RadioButton x:Name="randomIntervalMode" GroupName="clickInterval" Content="Random Interval Mode" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Foreground="White" FontSize="13" BorderThickness="3" BorderBrush="#4a46fb" Grid.ColumnSpan="2" Width="163"/>
+
+        </Grid>
+
+        <!--<RadioButton x:Name="randomIntervalMode" Content="Random Interval Mode" HorizontalAlignment="Left" Margin="17,103,0,0" Grid.Row="1" VerticalAlignment="Top" VerticalContentAlignment="Center" Foreground="White" FontSize="13" BorderThickness="3" BorderBrush="#4a46fb"/>-->
+    </Grid>
+</Window>

@@ -1,0 +1,54 @@
+﻿<Window x:Name="getCursorPosWindow" x:Class="OGAutoClicker.Views.CursorPos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OGAutoClicker.Views"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        WindowStyle="None"
+        Title="Cursor Location Picker"
+        Topmost="True"
+        Height="80" Width="200"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        Loaded="getCursorPosWindow_Loaded">
+
+    <Border Margin="10"
+        CornerRadius="5" 
+        Background="#23272A" 
+        BorderBrush="White"
+            BorderThickness="1"
+        >
+
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="0" Direction="-90"
+                              RenderingBias="Quality" ShadowDepth="0"/>
+        </Border.Effect>
+
+        <Grid HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="23*"></RowDefinition>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Click Or Press Esc To Pick"
+                   HorizontalAlignment="Center"
+                   Foreground="#4a46fb"
+                   VerticalAlignment="Center" FontWeight="Bold" Width="152"/>
+
+            <Label x:Name="xLbl" Content="X: 0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Grid.Row="1" Margin="40,1,0,0" Grid.RowSpan="2" Foreground="White"/>
+
+            <Label x:Name="yLbl" Content="Y: 0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Grid.Row="1" Margin="110,1,0,0" Grid.RowSpan="2" Foreground="White"/>
+            <!--<Border BorderBrush="#353535" BorderThickness="3" CornerRadius="5" Grid.RowSpan="3" Margin="0,-3,0,-3"/>-->
+        </Grid>
+
+    </Border>
+</Window>
